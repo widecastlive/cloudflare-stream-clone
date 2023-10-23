@@ -1,5 +1,5 @@
 #! /bin/sh
-yarn install -y
+npm install -y
 node index.js $1 $2
 
 wget --content-disposition -P ./data/audio/ -i ./data/audio/segments.txt
