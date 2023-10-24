@@ -8,6 +8,8 @@ if (!input) throw Error("Missing input manifest URL");
 
 const manifestFileName = argv[3] || "manifest.m3u8";
 
+const formats = ["1920", "1280", "640"];
+
 const base = input.substring(0, input.indexOf('/', 10));
 const source = `${base}/${input.split('/')[3]}/${input.split('/')[4]}`;
 
@@ -18,6 +20,7 @@ const cleanup = ({ type = "manifest", source, manifest, target }) => {
 		manifestSource = manifestSource.replace(audio, `audio/${manifestFileName}`);
 
 		manifest.playlists.forEach(playlist => {
+			if (!formats.includes(playlist.attributes.RESOLUTION.width)) return;
 			const variant = playlist.attributes.RESOLUTION.height + "p";
 			const uri = playlist.uri;
 			manifestSource = manifestSource.replaceAll(uri, `${variant}/${manifestFileName}`);
